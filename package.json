@@ -4,25 +4,32 @@
   "description": "This is a dedicated server for dental-vision app",
   "main": "index.js",
   "scripts": {
-    "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
+    "migrate": "prisma migrate",
+    "dev": "npm run generate && ts-node-dev --respawn --transpile-only src/server.ts",
     "build": "tsc",
-    "start": "node dist/server.js"
+    "start": "npm run migrate && node dist/server.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@prisma/client": "^6.0.1",
+    "bcrypt": "^5.1.1",
     "chalk": "^4.1.2",
     "express": "^4.21.2",
     "express-winston": "^4.2.0",
+    "jsonwebtoken": "^9.0.2",
     "morgan": "^1.10.0",
     "winston": "^3.17.0"
   },
   "devDependencies": {
+    "@types/bcrypt": "^5.0.2",
     "@types/express": "^5.0.0",
+    "@types/jsonwebtoken": "^9.0.7",
     "@types/morgan": "^1.9.9",
     "@types/node": "^22.10.2",
     "@types/winston": "^2.4.4",
+    "prisma": "^6.0.1",
     "ts-node": "^10.9.2",
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.7.2"

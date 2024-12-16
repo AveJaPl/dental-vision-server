@@ -1,0 +1,38 @@
+services:
+  postgres:
+    image: postgres:latest
+    container_name: postgres-db
+    restart: always
+    ports:
+      - "5432:5432" # Mapowanie portu PostgreSQL
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+    volumes:
+      - ./data:/var/lib/postgresql/data # Przechowywanie danych poza kontenerem
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  app:
+    build: .
+    container_name: express-app
+    ports:
+      - "3000:3000" # Mapowanie portu aplikacji
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/postgres
+      NODE_ENV: development
+    volumes:
+      - .:/app # Mapowanie katalogu projektu
+      - /app/node_modules # Używamy lokalnego node_modules, by uniknąć nadpisania
+    working_dir: /app # Katalog roboczy wewnątrz kontenera
+    command: npm run dev # Uruchomienie aplikacji w trybie deweloperskim
+
+volumes:
+  postgres-data: # Definicja woluminu do przechowywania danych

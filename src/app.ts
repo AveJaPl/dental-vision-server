@@ -8,6 +8,7 @@ export const app: Application = express();
 
 // Middleware, np. parsowanie JSON
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 // Middleware: logowanie żądań HTTP z użyciem morgan + chalk
 app.use(
