@@ -4,10 +4,10 @@
   "description": "This is a dedicated server for dental-vision app",
   "main": "index.js",
   "scripts": {
-    "migrate": "prisma migrate",
+    "generate": "prisma generate",
     "dev": "npm run generate && ts-node-dev --respawn --transpile-only src/server.ts",
     "build": "tsc",
-    "start": "npm run migrate && node dist/server.js"
+    "start": "npm run generate && node dist/server.js"
   },
   "keywords": [],
   "author": "",
