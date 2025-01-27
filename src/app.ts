@@ -3,6 +3,9 @@ import router from './routes';
 import morgan from 'morgan';
 import chalk from 'chalk';
 import logger from './logger';
+import cors from 'cors';
+import passport from './config/passport';
+import cookieParser from 'cookie-parser';
 
 export const app: Application = express();
 
@@ -23,15 +26,16 @@ app.use(
 );
 
 // Middleware: zabezpieczenia CORS
-app.use((req: Request, res: Response, next: NextFunction) => {
-  res.header('Access-Control-Allow-Origin', 'https://dental-vision.netlify.app');
-  res.header(
-    'Access-Control-Allow-Headers',
-    'Origin, X-Requested-With, Content-Type, Accept'
-  );
-  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-  next();
-});
+app.use(
+  cors({
+    origin: ['https://dental-vision.netlify.app', 'http://localhost:3000'], // localhost dla developmentu, netlify dla produkcji
+    credentials: true, // ważne, aby przeglądarka wysyłała/zapisywała cookie
+  })
+);
+app.use(cookieParser());
+
+// --- Inicjalizacja passport
+app.use(passport.initialize());
 
 // Główne trasy aplikacji
 app.use('/', router);

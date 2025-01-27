@@ -17,8 +17,11 @@ model User {
   id        String   @id @default(cuid())
   email     String   @unique
   name      String?
-  password  String
+  password  String?
   sawDemo   Boolean  @default(false)
+  googleId  String? @unique
+  facebookId String? @unique
+  appleId   String? @unique
   subscriptions Subscription[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
