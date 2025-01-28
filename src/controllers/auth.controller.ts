@@ -44,6 +44,8 @@ export const register = async (req: Request, res: Response) => {
       maxAge: 1000 * 60 * 60 * 24 * 365, // 1 year
       sameSite: "none",
       secure: true,
+      domain: ".lukaszszczesiak.pl"
+
     });
     res.json({ status: 201, message: null, data: user });
   } catch (error: any) {
@@ -82,6 +84,7 @@ export const login = async (req: Request, res: Response) => {
       maxAge: 1000 * 60 * 60 * 24 * 365, // 1 year
       sameSite: "none",
       secure: true,
+      domain: ".lukaszszczesiak.pl"
     });
     res.json({ status: 200, message: "Logged in", data: user });
   } catch (error: any) {
@@ -92,6 +95,7 @@ export const login = async (req: Request, res: Response) => {
 export const authentication = async (req: Request, res: Response) => {
   const token = req.cookies?.token;
   logger.info(`All cookies: ${JSON.stringify(req.cookies)}`);
+  logger.info("Request headers: " + JSON.stringify(req.headers));
   if (!token) {
     res.json({ data: {authenticated: false}, message: "No token provided", status: 401 });
     return;
