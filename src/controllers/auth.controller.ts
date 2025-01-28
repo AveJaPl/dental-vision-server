@@ -44,7 +44,7 @@ export const register = async (req: Request, res: Response) => {
       maxAge: 1000 * 60 * 60 * 24 * 365, // 1 year
       sameSite: "none",
       secure: true,
-      domain: ".lukaszszczesiak.pl"
+      domain: "chat.lukaszszczesiak.pl"
 
     });
     res.json({ status: 201, message: null, data: user });
@@ -84,7 +84,7 @@ export const login = async (req: Request, res: Response) => {
       maxAge: 1000 * 60 * 60 * 24 * 365, // 1 year
       sameSite: "none",
       secure: true,
-      domain: ".lukaszszczesiak.pl"
+      domain: "chat.lukaszszczesiak.pl"
     });
     res.json({ status: 200, message: "Logged in", data: user });
   } catch (error: any) {
