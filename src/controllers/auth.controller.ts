@@ -40,7 +40,7 @@ export const register = async (req: Request, res: Response) => {
     const token = generateToken(user.id);
     res.cookie("token", token, {
       httpOnly: true,
-      secure: false,
+      secure: true,
       sameSite: "none",
     });
     res.json({ status: 201, message: null, data: user });
@@ -77,7 +77,7 @@ export const login = async (req: Request, res: Response) => {
     const token = generateToken(user.id);
     res.cookie("token", token, {
       httpOnly: true,
-      secure: false,
+      secure: true,
       sameSite: "none",
     });
     res.json({ status: 200, message: "Logged in", data: user });
