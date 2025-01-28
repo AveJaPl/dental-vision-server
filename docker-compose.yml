@@ -1,7 +1,7 @@
 services:
   postgres:
     image: postgres:latest
-    container_name: postgres-db
+    container_name: smile-scan-db
     restart: always
     ports:
       - "5432:5432"
@@ -19,7 +19,7 @@ services:
 
   app:
     build: .
-    container_name: express-app
+    container_name: smile-scan-server
     # Aplikacja wewnątrz kontenera będzie na porcie 4000
     # ale na hoście będzie wystawiona pod ${APP_PORT} (domyślnie 3000)
     ports:

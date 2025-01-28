@@ -1,8 +1,10 @@
 // Here types for User model are defined in src/models/user.model.ts:
+import { PrismaClient } from '@prisma/client';
 
-export interface User {
-    id: string;
-    email: string;
-    password: string;
-    name: string;
-}
+const prisma = new PrismaClient();
+
+export const getUserById = async (id: string) => {
+    return prisma.user.findUnique({
+        where: { id },
+    });
+};
