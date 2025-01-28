@@ -1,9 +1,11 @@
 import { Router, Request, Response } from "express";
 import passport from "../config/passport";
 import generateToken from "../utils/token.generator";
-import { login, register } from "../controllers/auth.controller";
+import { authentication, login, register } from "../controllers/auth.controller";
 
 const router = Router();
+
+router.get("/check", authentication);
 
 // --- REJESTRACJA (manualna) ---
 router.post("/register", register);

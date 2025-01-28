@@ -3,6 +3,7 @@ import bcrypt from "bcrypt";
 import { PrismaClient } from "@prisma/client";
 import generateToken from "../utils/token.generator";
 import logger from "../logger";
+import { checkAuth } from "../utils/auth";
 
 const prisma = new PrismaClient();
 
@@ -40,9 +41,9 @@ export const register = async (req: Request, res: Response) => {
     const token = generateToken(user.id);
     res.cookie("token", token, {
       httpOnly: true,
-      secure: true,
+      maxAge: 1000 * 60 * 60 * 24 * 365, // 1 year
       sameSite: "none",
-      domain: ".lukaszszczesiak.pl"
+      secure: true,
     });
     res.json({ status: 201, message: null, data: user });
   } catch (error: any) {
@@ -78,12 +79,29 @@ export const login = async (req: Request, res: Response) => {
     const token = generateToken(user.id);
     res.cookie("token", token, {
       httpOnly: true,
-      secure: true,
+      maxAge: 1000 * 60 * 60 * 24 * 365, // 1 year
       sameSite: "none",
-      domain: ".lukaszszczesiak.pl"
+      secure: true,
     });
     res.json({ status: 200, message: "Logged in", data: user });
   } catch (error: any) {
     res.status(500).json({ message: error.message });
   }
 };
+
+export const authentication = async (req: Request, res: Response) => {
+  const token = req.cookies?.token;
+  if (!token) {
+    res.json({ data: {authenticated: false}, message: "No token provided", status: 401 });
+    return;
+  }
+
+  const authenticated = await checkAuth(token);
+
+  if (!authenticated) {
+    res.json({ data: {authenticated: false}, message: "Invalid token", status: 401 });
+    return;
+  }
+
+  res.json({ data: {authenticated: true}, message: "Authenticated", status: 200 });
+}
