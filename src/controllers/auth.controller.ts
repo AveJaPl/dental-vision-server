@@ -91,6 +91,7 @@ export const login = async (req: Request, res: Response) => {
 
 export const authentication = async (req: Request, res: Response) => {
   const token = req.cookies?.token;
+  logger.info(`All cookies: ${JSON.stringify(req.cookies)}`);
   if (!token) {
     res.json({ data: {authenticated: false}, message: "No token provided", status: 401 });
     return;
