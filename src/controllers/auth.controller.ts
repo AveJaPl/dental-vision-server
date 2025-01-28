@@ -42,6 +42,7 @@ export const register = async (req: Request, res: Response) => {
       httpOnly: true,
       secure: true,
       sameSite: "none",
+      domain: ".lukaszszczesiak.pl"
     });
     res.json({ status: 201, message: null, data: user });
   } catch (error: any) {
@@ -79,6 +80,7 @@ export const login = async (req: Request, res: Response) => {
       httpOnly: true,
       secure: true,
       sameSite: "none",
+      domain: ".lukaszszczesiak.pl"
     });
     res.json({ status: 200, message: "Logged in", data: user });
   } catch (error: any) {
