@@ -6,13 +6,13 @@ services:
     ports:
       - "5432:5432"
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: postgres
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
     volumes:
       - ./data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -h localhost"]
       interval: 5s
       timeout: 5s
       retries: 5
@@ -20,14 +20,23 @@ services:
   app:
     build: .
     container_name: express-app
+    # Aplikacja wewnątrz kontenera będzie na porcie 4000
+    # ale na hoście będzie wystawiona pod ${APP_PORT} (domyślnie 3000)
     ports:
-      - "3000:4000"
+      - "${APP_PORT}:4000"
     depends_on:
       postgres:
         condition: service_healthy
     environment:
-      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/postgres
-      NODE_ENV: development
+      # Zmienna z pliku .env
+      DATABASE_URL: ${DATABASE_URL}
+      JWT_SECRET: ${JWT_SECRET}
+      GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
+      GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET}
+      GOOGLE_CALLBACK_URL: ${GOOGLE_CALLBACK_URL}
+      NODE_ENV: ${NODE_ENV}
+      # Ten PORT to wewnętrzny port serwera w kontenerze.
+      # Aplikacja node może słuchać na 4000, a z zewnątrz wchodzimy na ${APP_PORT}.
       PORT: 4000
     volumes:
       - .:/app

@@ -39,7 +39,7 @@ export const register = async (req: Request, res: Response) => {
     // Generate a JWT token
     const token = generateToken(user.id);
     res.cookie("token", token, { httpOnly: true });
-    res.json({ status: 201, message: "User created", data: user });
+    res.json({ status: 201, message: null, data: user });
 
   } catch (error: any) {
     res.status(500).json({ message: error.message });

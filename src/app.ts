@@ -28,7 +28,7 @@ app.use(
 // Middleware: zabezpieczenia CORS
 app.use(
   cors({
-    origin: ['https://dental-vision.netlify.app', 'http://localhost:3000'], // localhost dla developmentu, netlify dla produkcji
+    origin: ['https://dental-vision.netlify.app', 'http://localhost:3000', 'http://localhost:3001'], // localhost dla developmentu, netlify dla produkcji
     credentials: true, // ważne, aby przeglądarka wysyłała/zapisywała cookie
   })
 );
